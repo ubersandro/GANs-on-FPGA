@@ -1,0 +1,437 @@
+[MODEL INFO]:
+________________________________________________________________________________________________________________________
+Model Name: generator
+________________________________________________________________________________________________________________________
+ID          Name                    Type                    Device      Notes                                           
+========================================================================================================================
+0/19        Input                   InputLayer              INPUT                                                       
+------------------------------------------------------------------------------------------------------------------------
+1/19        dense0                  Dense<linear>           DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+2/19        bn0                     BatchNormalization      DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+3/19        activation0             LeakyReLU               DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+4/19        reshape_1               Reshape                 DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+5/19        upsampling1             UpSampling2D            DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+6/19        conv1                   Conv2D<linear>          DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+7/19        bn1                     BatchNormalization      DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+8/19        activation1             LeakyReLU               DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+9/19        upsampling2             UpSampling2D            DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+10/19       conv2                   Conv2D<linear>          DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+11/19       bn2                     BatchNormalization      DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+12/19       activation2             LeakyReLU               DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+13/19       upsampling3             UpSampling2D            DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+14/19       conv3                   Conv2D<linear>          DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+15/19       bn3                     BatchNormalization      DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+16/19       activation3             LeakyReLU               DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+17/19       conv_out                Conv2D<linear>          DPU                                                         
+------------------------------------------------------------------------------------------------------------------------
+18/19       activation_out          Activation<tanh>        CPU         Conv2D<tanh> not supported, supported act types 
+                                                                        are ['relu', 'leaky_relu', 'relu_six'];         
+                                                                        Standalone activation `tanh` is not supported   
+------------------------------------------------------------------------------------------------------------------------
+19/19       cropping                Cropping2D              CPU         `Cropping2D` is not supported by target         
+------------------------------------------------------------------------------------------------------------------------
+========================================================================================================================
+[SUMMARY INFO]:
+- [Target Name]: DPUCZDX8G_ISA1_B1600
+- [Target Type]: DPUCZDX8G
+- [Total Layers]: 20
+- [Layer Types]: InputLayer(1) Dense<linear>(1) BatchNormalization(4) LeakyReLU(4) Reshape(1) UpSampling2D(3) Conv2D<linear>(4) Activation<tanh>(1) Cropping2D(1) 
+- [Partition Results]: INPUT(1) DPU(17) CPU(2) 
+========================================================================================================================
+[NOTES INFO]:
+- [18/19] Layer activation_out (Type:Activation<tanh>, Device:CPU):
+    * Conv2D<tanh> not supported, supported act types are ['relu', 'leaky_relu', 'relu_six']
+    * Standalone activation `tanh` is not supported
+- [19/19] Layer cropping (Type:Cropping2D, Device:CPU):
+    * `Cropping2D` is not supported by target
+========================================================================================================================
+
+Detailed Model Info: 
+
+Layer ID: 0
+Layer Name: Input
+Layer Type: InputLayer
+Device: INPUT
+Notes: 
+    None
+Layer Config:
+{'batch_input_shape': (None, 128),
+ 'dtype': 'float32',
+ 'name': 'Input',
+ 'ragged': False,
+ 'sparse': False}
+________________________________________________________________________________________________________________________
+Layer ID: 1
+Layer Name: dense0
+Layer Type: Dense
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'activation': 'linear',
+ 'activity_regularizer': None,
+ 'bias_constraint': None,
+ 'bias_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'bias_regularizer': None,
+ 'dtype': 'float32',
+ 'kernel_constraint': None,
+ 'kernel_initializer': {'class_name': 'GlorotUniform',
+                        'config': {'seed': None}},
+ 'kernel_regularizer': None,
+ 'name': 'dense0',
+ 'trainable': True,
+ 'units': 1024,
+ 'use_bias': False}
+________________________________________________________________________________________________________________________
+Layer ID: 2
+Layer Name: bn0
+Layer Type: BatchNormalization
+Device: DPU
+Notes: 
+    1. Folded into previous layer dense0.
+Layer Config:
+{'axis': ListWrapper([1]),
+ 'beta_constraint': None,
+ 'beta_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'beta_regularizer': None,
+ 'center': True,
+ 'dtype': 'float32',
+ 'epsilon': 0.001,
+ 'gamma_constraint': None,
+ 'gamma_initializer': {'class_name': 'Ones', 'config': {}},
+ 'gamma_regularizer': None,
+ 'momentum': 0.99,
+ 'moving_mean_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'moving_variance_initializer': {'class_name': 'Ones', 'config': {}},
+ 'name': 'bn0',
+ 'scale': True,
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 3
+Layer Name: activation0
+Layer Type: LeakyReLU
+Device: DPU
+Notes: 
+    1. Converted alpha 0.1 to 26./256. to match DPU implementation.
+Layer Config:
+{'alpha': 0.10000000149011612,
+ 'dtype': 'float32',
+ 'name': 'activation0',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 4
+Layer Name: reshape_1
+Layer Type: Reshape
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'dtype': 'float32',
+ 'name': 'reshape_1',
+ 'target_shape': (4, 4, 64),
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 5
+Layer Name: upsampling1
+Layer Type: UpSampling2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'data_format': 'channels_last',
+ 'dtype': 'float32',
+ 'interpolation': 'nearest',
+ 'name': 'upsampling1',
+ 'size': (2, 2),
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 6
+Layer Name: conv1
+Layer Type: Conv2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'activation': 'linear',
+ 'activity_regularizer': None,
+ 'bias_constraint': None,
+ 'bias_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'bias_regularizer': None,
+ 'data_format': 'channels_last',
+ 'dilation_rate': (1, 1),
+ 'dtype': 'float32',
+ 'filters': 64,
+ 'groups': 1,
+ 'kernel_constraint': None,
+ 'kernel_initializer': {'class_name': 'GlorotUniform',
+                        'config': {'seed': None}},
+ 'kernel_regularizer': None,
+ 'kernel_size': (3, 3),
+ 'name': 'conv1',
+ 'padding': 'same',
+ 'strides': (1, 1),
+ 'trainable': True,
+ 'use_bias': False}
+________________________________________________________________________________________________________________________
+Layer ID: 7
+Layer Name: bn1
+Layer Type: BatchNormalization
+Device: DPU
+Notes: 
+    1. Folded into previous layer conv1.
+Layer Config:
+{'axis': ListWrapper([3]),
+ 'beta_constraint': None,
+ 'beta_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'beta_regularizer': None,
+ 'center': True,
+ 'dtype': 'float32',
+ 'epsilon': 0.001,
+ 'gamma_constraint': None,
+ 'gamma_initializer': {'class_name': 'Ones', 'config': {}},
+ 'gamma_regularizer': None,
+ 'momentum': 0.99,
+ 'moving_mean_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'moving_variance_initializer': {'class_name': 'Ones', 'config': {}},
+ 'name': 'bn1',
+ 'scale': True,
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 8
+Layer Name: activation1
+Layer Type: LeakyReLU
+Device: DPU
+Notes: 
+    1. Converted alpha 0.1 to 26./256. to match DPU implementation.
+Layer Config:
+{'alpha': 0.10000000149011612,
+ 'dtype': 'float32',
+ 'name': 'activation1',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 9
+Layer Name: upsampling2
+Layer Type: UpSampling2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'data_format': 'channels_last',
+ 'dtype': 'float32',
+ 'interpolation': 'nearest',
+ 'name': 'upsampling2',
+ 'size': (2, 2),
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 10
+Layer Name: conv2
+Layer Type: Conv2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'activation': 'linear',
+ 'activity_regularizer': None,
+ 'bias_constraint': None,
+ 'bias_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'bias_regularizer': None,
+ 'data_format': 'channels_last',
+ 'dilation_rate': (1, 1),
+ 'dtype': 'float32',
+ 'filters': 128,
+ 'groups': 1,
+ 'kernel_constraint': None,
+ 'kernel_initializer': {'class_name': 'GlorotUniform',
+                        'config': {'seed': None}},
+ 'kernel_regularizer': None,
+ 'kernel_size': (3, 3),
+ 'name': 'conv2',
+ 'padding': 'same',
+ 'strides': (1, 1),
+ 'trainable': True,
+ 'use_bias': False}
+________________________________________________________________________________________________________________________
+Layer ID: 11
+Layer Name: bn2
+Layer Type: BatchNormalization
+Device: DPU
+Notes: 
+    1. Folded into previous layer conv2.
+Layer Config:
+{'axis': ListWrapper([3]),
+ 'beta_constraint': None,
+ 'beta_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'beta_regularizer': None,
+ 'center': True,
+ 'dtype': 'float32',
+ 'epsilon': 0.001,
+ 'gamma_constraint': None,
+ 'gamma_initializer': {'class_name': 'Ones', 'config': {}},
+ 'gamma_regularizer': None,
+ 'momentum': 0.99,
+ 'moving_mean_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'moving_variance_initializer': {'class_name': 'Ones', 'config': {}},
+ 'name': 'bn2',
+ 'scale': True,
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 12
+Layer Name: activation2
+Layer Type: LeakyReLU
+Device: DPU
+Notes: 
+    1. Converted alpha 0.1 to 26./256. to match DPU implementation.
+Layer Config:
+{'alpha': 0.10000000149011612,
+ 'dtype': 'float32',
+ 'name': 'activation2',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 13
+Layer Name: upsampling3
+Layer Type: UpSampling2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'data_format': 'channels_last',
+ 'dtype': 'float32',
+ 'interpolation': 'nearest',
+ 'name': 'upsampling3',
+ 'size': (2, 2),
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 14
+Layer Name: conv3
+Layer Type: Conv2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'activation': 'linear',
+ 'activity_regularizer': None,
+ 'bias_constraint': None,
+ 'bias_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'bias_regularizer': None,
+ 'data_format': 'channels_last',
+ 'dilation_rate': (1, 1),
+ 'dtype': 'float32',
+ 'filters': 256,
+ 'groups': 1,
+ 'kernel_constraint': None,
+ 'kernel_initializer': {'class_name': 'GlorotUniform',
+                        'config': {'seed': None}},
+ 'kernel_regularizer': None,
+ 'kernel_size': (3, 3),
+ 'name': 'conv3',
+ 'padding': 'same',
+ 'strides': (1, 1),
+ 'trainable': True,
+ 'use_bias': False}
+________________________________________________________________________________________________________________________
+Layer ID: 15
+Layer Name: bn3
+Layer Type: BatchNormalization
+Device: DPU
+Notes: 
+    1. Folded into previous layer conv3.
+Layer Config:
+{'axis': ListWrapper([3]),
+ 'beta_constraint': None,
+ 'beta_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'beta_regularizer': None,
+ 'center': True,
+ 'dtype': 'float32',
+ 'epsilon': 0.001,
+ 'gamma_constraint': None,
+ 'gamma_initializer': {'class_name': 'Ones', 'config': {}},
+ 'gamma_regularizer': None,
+ 'momentum': 0.99,
+ 'moving_mean_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'moving_variance_initializer': {'class_name': 'Ones', 'config': {}},
+ 'name': 'bn3',
+ 'scale': True,
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 16
+Layer Name: activation3
+Layer Type: LeakyReLU
+Device: DPU
+Notes: 
+    1. Converted alpha 0.1 to 26./256. to match DPU implementation.
+Layer Config:
+{'alpha': 0.10000000149011612,
+ 'dtype': 'float32',
+ 'name': 'activation3',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 17
+Layer Name: conv_out
+Layer Type: Conv2D
+Device: DPU
+Notes: 
+    None
+Layer Config:
+{'activation': 'linear',
+ 'activity_regularizer': None,
+ 'bias_constraint': None,
+ 'bias_initializer': {'class_name': 'Zeros', 'config': {}},
+ 'bias_regularizer': None,
+ 'data_format': 'channels_last',
+ 'dilation_rate': (1, 1),
+ 'dtype': 'float32',
+ 'filters': 1,
+ 'groups': 1,
+ 'kernel_constraint': None,
+ 'kernel_initializer': {'class_name': 'GlorotUniform',
+                        'config': {'seed': None}},
+ 'kernel_regularizer': None,
+ 'kernel_size': (3, 3),
+ 'name': 'conv_out',
+ 'padding': 'same',
+ 'strides': (1, 1),
+ 'trainable': True,
+ 'use_bias': False}
+________________________________________________________________________________________________________________________
+Layer ID: 18
+Layer Name: activation_out
+Layer Type: Activation
+Device: CPU
+Notes: 
+    1. Conv2D<tanh> not supported, supported act types are ['relu', 'leaky_relu', 'relu_six']
+    2. Standalone activation `tanh` is not supported.
+Layer Config:
+{'activation': 'tanh',
+ 'dtype': 'float32',
+ 'name': 'activation_out',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
+Layer ID: 19
+Layer Name: cropping
+Layer Type: Cropping2D
+Device: CPU
+Notes: 
+    1. `Cropping2D` is not supported by target.
+Layer Config:
+{'cropping': ((2, 2), (2, 2)),
+ 'data_format': 'channels_last',
+ 'dtype': 'float32',
+ 'name': 'cropping',
+ 'trainable': True}
+________________________________________________________________________________________________________________________
